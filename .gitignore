@@ -1,0 +1,6 @@
+# Ignore folders
+/venv
+/.vscode
+/__pycache__
+/reports
+/data
