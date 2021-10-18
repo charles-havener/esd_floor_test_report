@@ -5,3 +5,7 @@
 /reports
 /data
 /lib/__pycache__
+
+# Ignore files
+
+*.pdf
