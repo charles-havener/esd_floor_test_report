@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter.messagebox import showerror
 from tkinter import ttk
 from lib.graphs import generate_charts
+from lib.tables import create_tables
 import os
 
 class App(ttk.Frame):
@@ -533,7 +534,7 @@ class App(ttk.Frame):
         self.path_label['text'] = filedialog.askdirectory()
 
     def validate_inputs(self):
-        text_inputs_to_validate = [
+        self.text_inputs_to_validate = [
             self.area, self.asset, self.frequency, self.frequency_time,
             self.e1_1, self.e1_2, self.e1_3, self.e1_4,
             self.e2_1, self.e2_2, self.e2_3, self.e2_4,
@@ -541,7 +542,7 @@ class App(ttk.Frame):
             self.e4_1
         ]
 
-        int_inputs_to_validate = [
+        self.float_inputs_to_validate = [
             self.location1_base, self.location2_base, self.location3_base,
             self.location4_base, self.location5_base, self.location6_base,
             self.location7_base, self.location8_base, self.location9_base,
@@ -554,7 +555,7 @@ class App(ttk.Frame):
             self.location28_base, self.location29_base, self.location30_base,
         ]
 
-        float_inputs_to_validate = [
+        self.int_inputs_to_validate = [
             self.location1_power, self.location2_power, self.location3_power,
             self.location4_power, self.location5_power, self.location6_power,
             self.location7_power, self.location8_power, self.location9_power,
@@ -571,20 +572,20 @@ class App(ttk.Frame):
         min_index1, min_index2 = 0, 0
         
         # must be able to cast certain inputs to int
-        for idx, item_i in enumerate(int_inputs_to_validate):
+        for idx, item_i in enumerate(self.int_inputs_to_validate):
             try:
                 int(item_i.get())
-                if idx==len(int_inputs_to_validate)-1: min_index1 = len(int_inputs_to_validate)
+                if idx==len(self.int_inputs_to_validate)-1: min_index1 = len(self.int_inputs_to_validate)
             except ValueError:
                 min_index1 = idx
                 break
         print(min_index1)
 
         # must be able to cast certain inputs to float
-        for idx, item_f in enumerate(float_inputs_to_validate):
+        for idx, item_f in enumerate(self.float_inputs_to_validate):
             try:
                 float(item_f.get())
-                if idx==len(float_inputs_to_validate)-1: min_index2 = len(float_inputs_to_validate)
+                if idx==len(self.float_inputs_to_validate)-1: min_index2 = len(self.float_inputs_to_validate)
             except ValueError:
                 min_index2 = idx
                 break
@@ -602,7 +603,7 @@ class App(ttk.Frame):
             min_index = min_index1
 
         # string inputs cannot be empty
-        for item in text_inputs_to_validate:
+        for item in self.text_inputs_to_validate:
             if item.get() == "":
                 item.state(["invalid"])
                 min_index = 0
@@ -627,7 +628,8 @@ class App(ttk.Frame):
         if not self.check_files_exist(m):
             showerror("Error", "Could not find all excel files in the path provided")
             return
-
         
-        #generate_tables(self, m) #TODO:
+        b = [float(i.get()) for i in self.float_inputs_to_validate[:m]]
+        p = [int(i.get()) for i in self.int_inputs_to_validate[:m]]
+        create_tables(b,p)
         generate_charts(self.path_label['text'].replace("/", "\\"), m)
