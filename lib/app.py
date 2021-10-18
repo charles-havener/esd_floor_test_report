@@ -5,6 +5,7 @@ from tkinter import ttk
 from lib.graphs import generate_charts
 from lib.tables import create_tables
 from lib.cover import create_cover_page
+from lib.merge import merge_files
 import os
 
 class App(ttk.Frame):
@@ -658,6 +659,11 @@ class App(ttk.Frame):
         b = [float(i.get()) for i in self.float_inputs_to_validate[:m]]
         p = [int(i.get()) for i in self.int_inputs_to_validate[:m]]
 
-        create_cover_page(labels, values, titles, area, asset, freq)
-        create_tables(b,p)
-        generate_charts(self.path_label['text'].replace("/", "\\"), m)
+        files = []
+
+        files.extend(create_cover_page(labels, values, titles, area, asset, freq))
+        files.extend(create_tables(b,p))
+        files.extend(generate_charts(self.path_label['text'].replace("/", "\\"), m))
+
+        print(files)
+        merge_files(files)
