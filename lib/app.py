@@ -4,6 +4,7 @@ from tkinter.messagebox import showerror
 from tkinter import ttk
 from lib.graphs import generate_charts
 from lib.tables import create_tables
+from lib.cover import create_cover_page
 import os
 
 class App(ttk.Frame):
@@ -118,7 +119,6 @@ class App(ttk.Frame):
         self.separator.grid(row=1, column=0, padx=(10, 10), pady=10, columnspan=3, sticky="ew")
 
         # ----- 1-10 -----
-        #TODO: change back to Frame
         self.value_subframe1 = ttk.LabelFrame(self.res_frame, text="1-10")
         self.value_subframe1.grid(row=2, column=0, padx=(5,5))
 
@@ -213,7 +213,6 @@ class App(ttk.Frame):
         self.location10_power.grid(row=9, column=3, padx=(5,5), pady=(5,5))
 
         # ----- 11-20 -----
-        # TODO: change back to Frame
         self.value_subframe2 = ttk.LabelFrame(self.res_frame, text="11-20")
         self.value_subframe2.grid(row=2, column=1, padx=(5,5))
 
@@ -309,7 +308,6 @@ class App(ttk.Frame):
 
 
         # ----- 21-30 -----
-        # TODO: change back to Frame
         self.value_subframe3 = ttk.LabelFrame(self.res_frame, text="21-30")
         self.value_subframe3.grid(row=2, column=2, padx=(5,5))
 
@@ -628,8 +626,38 @@ class App(ttk.Frame):
         if not self.check_files_exist(m):
             showerror("Error", "Could not find all excel files in the path provided")
             return
-        
+
+        labels = [
+            [self.e1_1_label, self.e1_2_label, self.e1_3_label, self.e1_4_label],
+            [self.e2_1_label, self.e2_2_label, self.e2_3_label, self.e2_4_label],
+            [self.e3_1_label, self.e3_2_label, self.e3_3_label, self.e3_4_label, self.e3_5_label, self.e3_6_label],
+            [self.e4_1_label]
+        ]
+
+        values = [
+            [self.e1_1, self.e1_2, self.e1_3, self.e1_4],
+            [self.e2_1, self.e2_2, self.e2_3, self.e2_4],
+            [self.e3_1, self.e3_2, self.e3_3, self.e3_4,self.e3_5, self.e3_6],
+            [self.e4_1]
+        ]
+
+        titles = [
+            "Description of Floor",
+            "Description of Footwear",
+            "Description of Test Hardware",
+            "Other Information"
+        ]
+
+        area = self.area.get()
+        asset = self.asset.get()
+        freq = str(self.frequency.get()) + "/" + str(self.frequency_time.get())
+
+        labels = [[i['text'] for i in labels[j]] for j in range(len(labels))]
+        values = [[i.get() for i in values[j]] for j in range(len(values))]
+
         b = [float(i.get()) for i in self.float_inputs_to_validate[:m]]
         p = [int(i.get()) for i in self.int_inputs_to_validate[:m]]
+
+        create_cover_page(labels, values, titles, area, asset, freq)
         create_tables(b,p)
         generate_charts(self.path_label['text'].replace("/", "\\"), m)
