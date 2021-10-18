@@ -89,8 +89,6 @@ def create_cover_page(labels, values, titles, area, asset, freq):
     )
 
     for i in range(len(labels)):
-        print(labels[i])
-        print(values[i])
 
         fig.add_trace(
             create_sub_table(labels[i], values[i], titles[i]),
@@ -111,4 +109,6 @@ def create_cover_page(labels, values, titles, area, asset, freq):
         ),
     )
 
-    fig.write_image("cover.pdf")
+    file_name = "cover.pdf"
+    fig.write_image(file_name)
+    return [file_name]

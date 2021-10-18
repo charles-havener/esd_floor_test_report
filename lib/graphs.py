@@ -54,6 +54,7 @@ def generate_charts(path, num):
     text_color = 'rgba(119,119,119,1)'
     background_color = 'rgba(255,255,255,1)'
 
+    file_names = []
 
     count = 1
     page_count = 1
@@ -166,7 +167,10 @@ def generate_charts(path, num):
                     )
                 )
             )
-            fig.write_image(f"{page_count}.pdf")
+            file_name = f"{page_count}.pdf"
+            fig.write_image(file_name)
+            file_names.append(file_name)
             count = 1
             page_count+=1
 
+    return file_names

@@ -116,5 +116,7 @@ def create_tables(base, power):
             text = "Floor Test Summary"
         ),
     )
-
-    fig.write_image("tables.pdf")
+    
+    file_name = "tables.pdf"
+    fig.write_image(file_name)
+    return [file_name]
