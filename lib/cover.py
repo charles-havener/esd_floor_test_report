@@ -109,6 +109,6 @@ def create_cover_page(labels, values, titles, area, asset, freq):
         ),
     )
 
-    file_name = "cover.pdf"
+    file_name = "tmp/cover.pdf"
     fig.write_image(file_name)
     return [file_name]
