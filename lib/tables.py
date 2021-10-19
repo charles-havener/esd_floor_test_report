@@ -117,6 +117,6 @@ def create_tables(base, power):
         ),
     )
     
-    file_name = "tables.pdf"
+    file_name = "tmp/tables.pdf"
     fig.write_image(file_name)
     return [file_name]
