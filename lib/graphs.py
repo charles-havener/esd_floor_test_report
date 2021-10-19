@@ -34,7 +34,7 @@ def get_data(path, n):
     # Retrieve the environmental/datetime data and fix it's messed up formatting issues
     env_data = pd.read_excel(p, header=None, usecols="C:F", skiprows=1, nrows=1, names=["Temp", "RH", "Time", "Date"])
     temp = env_data["Temp"][0].replace("_x0000_", "").replace(" ", "")
-    hum = env_data["RH"][0].replace("_x0000_", "").replace(" ", "").replace("RH","")
+    hum = env_data["RH"][0].replace("_x0000_", "").replace(" ", "")
     time = env_data["Time"][0].replace("_x0000_", "").replace(" ", "")
     date = env_data["Date"][0].replace("_x0000_", "").replace(" ", "")
 
@@ -167,7 +167,7 @@ def generate_charts(path, num):
                     )
                 )
             )
-            file_name = f"{page_count}.pdf"
+            file_name = f"tmp/{page_count}.pdf"
             fig.write_image(file_name)
             file_names.append(file_name)
             count = 1
