@@ -578,7 +578,6 @@ class App(ttk.Frame):
             except ValueError:
                 min_index1 = idx
                 break
-        print(min_index1)
 
         # must be able to cast certain inputs to float
         for idx, item_f in enumerate(self.float_inputs_to_validate):
@@ -588,7 +587,6 @@ class App(ttk.Frame):
             except ValueError:
                 min_index2 = idx
                 break
-        print(min_index2)
         
         if min_index1 != min_index2:
             l = item_i if min_index1 < min_index2 else item_f
@@ -618,6 +616,11 @@ class App(ttk.Frame):
         return True
 
     def create_report(self):
+
+        if not os.path.exists("tmp"):
+            os.makedirs("tmp")
+        if not os.path.exists("reports"):
+            os.makedirs("reports")
 
         # Retrieves the number of recordings entered and proceeds if no errors were found
         m = self.validate_inputs()
@@ -656,14 +659,13 @@ class App(ttk.Frame):
         labels = [[i['text'] for i in labels[j]] for j in range(len(labels))]
         values = [[i.get() for i in values[j]] for j in range(len(values))]
 
-        b = [float(i.get()) for i in self.float_inputs_to_validate[:m]]
-        p = [int(i.get()) for i in self.int_inputs_to_validate[:m]]
+        bases = [float(i.get()) for i in self.float_inputs_to_validate[:m]]
+        powers = [int(i.get()) for i in self.int_inputs_to_validate[:m]]
 
         files = []
 
         files.extend(create_cover_page(labels, values, titles, area, asset, freq))
-        files.extend(create_tables(b,p))
+        files.extend(create_tables(bases, powers))
         files.extend(generate_charts(self.path_label['text'].replace("/", "\\"), m))
 
-        print(files)
         merge_files(files)
