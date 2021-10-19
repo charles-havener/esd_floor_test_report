@@ -7,10 +7,6 @@ def merge_files(files):
     merger = PdfFileMerger()
     for pdf in files:
         merger.append(pdf)
-    merger.write("report.pdf")
+    merger.write("reports/report.pdf")
     merger.close
-
-    # Remove pdfs, only keeping final report
-    for f in files:
-        os.remove(f)
 
