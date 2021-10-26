@@ -6,6 +6,7 @@ from lib.graphs import generate_charts
 from lib.tables import create_tables
 from lib.cover import create_cover_page
 from lib.merge import merge_files
+from datetime import date
 import os
 
 class App(ttk.Frame):
@@ -668,4 +669,5 @@ class App(ttk.Frame):
         files.extend(create_tables(bases, powers))
         files.extend(generate_charts(self.path_label['text'].replace("/", "\\"), m))
 
-        merge_files(files)
+        filename = f"{date.today().strftime('%Y.%m.%d')}-{area}"
+        merge_files(files, filename)
